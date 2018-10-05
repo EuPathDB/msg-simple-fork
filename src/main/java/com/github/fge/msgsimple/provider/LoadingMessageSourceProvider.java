@@ -98,11 +98,23 @@ public final class LoadingMessageSourceProvider
 
     private static final int NTHREADS = 3;
 
+    private static List<ExecutorService> THREAD_POOLS = new ArrayList<ExecutorService>();
+
     /*
      * Executor service for loading tasks
      */
-    private final ExecutorService service
-        = Executors.newFixedThreadPool(NTHREADS, THREAD_FACTORY);
+    private final ExecutorService service = addTreadpool(Executors.newFixedThreadPool(NTHREADS, THREAD_FACTORY));
+
+    private static ExecutorService addTreadpool(ExecutorService nextPool) {
+      THREAD_POOLS.add(nextPool);
+      return nextPool;
+    }
+
+    public static void shutDownThreadPools() {
+      for (ExecutorService pool : THREAD_POOLS) {
+        pool.shutdownNow();
+      }
+    }
 
     /*
      * Loader and default source
