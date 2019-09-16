@@ -30,8 +30,3 @@ node_modules/
 
 # Other version control
 .svn/
-
-#
-# Exported from svn:ignore
-#
-build
